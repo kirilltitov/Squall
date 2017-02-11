@@ -25,7 +25,7 @@ private func safeMultiply(a: UInt32, _ b: UInt32) -> UInt32 {
 ///
 /// Uses the Mersenne Twister PRNG algorithm described [here](https://en.wikipedia.org/wiki/Mersenne_Twister).
 ///
-final internal class MersenneTwisterGenerator: GeneratorType {
+final internal class MersenneTwisterGenerator: IteratorProtocol {
     
     internal typealias Element = UInt32
     
@@ -52,7 +52,7 @@ final internal class MersenneTwisterGenerator: GeneratorType {
         var x = [seed]
         for i in 1..<n {
             let prev = x[i-1]
-            let c = safeMultiply(f, prev ^ (prev >> (w-2))) + UInt32(i)
+            let c = safeMultiply(a: f, prev ^ (prev >> (w-2))) + UInt32(i)
             x.append(c)
         }
         self.state = x
