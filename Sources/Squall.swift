@@ -13,15 +13,15 @@ import Foundation
 /// CAUTION: Not thread safe, uses a global internal state.
 ///
 public enum Squall {
-    private static var generator = MersenneTwisterGenerator()
-    
+    static var generator = MersenneTwisterGenerator()
+
     /// Initialize the internal state of the generator.
     ///
     /// - parameter seed: The value used to generate the intial state. Should be chosen at random.
     public static func seed(_ seed: UInt32) {
         Squall.generator = MersenneTwisterGenerator(seed: seed)
     }
-    
+
     /// Initialize the internal state of the generator.
     ///
     /// Uses the current time as the seed. Should not overflow until February 2106.
@@ -32,7 +32,7 @@ public enum Squall {
         let seed = UInt32(epochTime)
         Squall.seed(seed)
     }
-    
+
     /// Generates a random `UInt32`.
     ///
     /// - returns: The next `UInt32` in the sequence
@@ -52,21 +52,21 @@ extension Squall {
         let lower = UInt64(generator.next()!)
         return upper + lower
     }
-    
+
     /// Generates a random stream of bytes.
     ///
     /// - parameter length: The number of bytes of random data to return.
     ///
     /// - returns: The next `length` random bytes. Or nil if length <= 0.
-    public static func randomData(length: Int) -> NSData? {
+    /*public static func randomData(length: Int) -> NSData? {
         guard length > 0 else { return nil }
         // Finding a contiguous stretch of memory much longer than this might not be possible, especially on iOS
         precondition(length < 10485760, "Buffer would exceed 10mb")
-        
-        let rawMemory = UnsafeMutablePointer<Void>.allocatingCapacity(length)
+
+        let rawMemory = UnsafeMutablePointer<Void>.allocate(capacity: length)
         // guard rawMemory != nil else { return nil }
         let buffer = UnsafeMutablePointer<UInt8>(rawMemory)
-        
+
         let numChunks = length / 4
         for index in 0..<numChunks {
             let chunk = Squall.random() as UInt32
@@ -75,7 +75,7 @@ extension Squall {
             (buffer + (index * 4) + 2).pointee = UInt8((chunk & 0x0000FF00) >> 8)
             (buffer + (index * 4) + 3).pointee = UInt8((chunk & 0x000000FF))
         }
-        
+
         var numExtra = length % 4
         let extraChunk = Squall.random() as UInt32
         while numExtra > 0 {
@@ -84,7 +84,7 @@ extension Squall {
             (buffer + (numChunks * 4) + numExtra).pointee = UInt8((extraChunk & mask) >> shift)
             numExtra -= 1
         }
-        
+
         return NSData(
             bytesNoCopy: rawMemory,
             length: length,
@@ -93,7 +93,7 @@ extension Squall {
                 ptr.deallocateCapacity(length)
             }
         )
-    }
+    }*/
 }
 
 // MARK: Uniform Distribution
