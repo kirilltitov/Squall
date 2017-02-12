@@ -58,7 +58,7 @@ extension Squall {
     /// - parameter length: The number of bytes of random data to return.
     ///
     /// - returns: The next `length` random bytes. Or nil if length <= 0.
-    /*public static func randomData(length: Int) -> NSData? {
+    public static func randomData(length: Int) -> NSData? {
         guard length > 0 else { return nil }
         // Finding a contiguous stretch of memory much longer than this might not be possible, especially on iOS
         precondition(length < 10485760, "Buffer would exceed 10mb")
@@ -93,7 +93,7 @@ extension Squall {
                 ptr.deallocateCapacity(length)
             }
         )
-    }*/
+    }
 }
 
 // MARK: Uniform Distribution
